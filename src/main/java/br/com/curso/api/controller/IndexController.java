@@ -73,6 +73,13 @@ public class IndexController {
 			usuario.getCarros().get(pos).setUsuario(usuario);
 		}
 		
+		Usuario usuarioTemp = usuarioRepository.findById(usuario.getId()).get();
+		
+		/*Verifica se o usuário quer atualizar a senha, e criptografa a nova senha*/
+		if (!usuarioTemp.getSenha().equals(usuario.getSenha())) {
+			usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
+		}
+		
 		Usuario save = usuarioRepository.save(usuario);
 		
 		return new ResponseEntity<Usuario>(save , HttpStatus.OK);
