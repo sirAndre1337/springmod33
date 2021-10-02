@@ -22,9 +22,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class JWTTokenAutenticacaoService {
 	
-	@Autowired
-	private UsuarioRepository repository;
-
 	/*Tempo de validade do token 2 dias*/
 	private static final long EXPIRATION_TIME = 172800000;
 	
