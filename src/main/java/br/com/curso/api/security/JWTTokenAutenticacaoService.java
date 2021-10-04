@@ -58,9 +58,12 @@ public class JWTTokenAutenticacaoService {
 		String token = request.getHeader(HEADER_STRING);
 		
 		if (token != null) {
+			
+			String tokenLimpo = token.replace(TOKEN_PREFIX, "").trim();
+			
 			/*Faz a validação do TOKEN do usuário na requisição*/
 			String user = Jwts.parser().setSigningKey(SECRET)// nesse momento o token esta : Bearer  8732kasdiuaxusahdsad__@328dsnja
-					.parseClaimsJws(token.replace(TOKEN_PREFIX, "")) // aqui ele retira o prefixo : 8732kasdiuaxusahdsad__@328dsnja
+					.parseClaimsJws(tokenLimpo) // aqui ele retira o prefixo : 8732kasdiuaxusahdsad__@328dsnja
 					.getBody().getSubject(); // aqui descompacta usuario. Ex : André Luis
 			
 			if (user != null) {
@@ -70,10 +73,13 @@ public class JWTTokenAutenticacaoService {
 				 /*Retorna o usuário logado*/
 				 if (usuario != null) {
 					 
+					 if (tokenLimpo.equals(usuario.getToken())) {
+						 
 					 return new UsernamePasswordAuthenticationToken(
 							 usuario.getLogin(),
 							 usuario.getSenha() ,
 							 usuario.getAuthorities());
+					 }
 				 }
 			}
 		}
