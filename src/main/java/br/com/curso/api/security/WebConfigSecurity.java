@@ -2,6 +2,7 @@ package br.com.curso.api.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,6 +32,9 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter{
 		/*Ativando a permissão para acesso a página inicial do sistema EX: 'sistema.com.br/index.hmtl'*/
 		.disable().authorizeRequests().antMatchers("/").permitAll()
 		.antMatchers("/index").permitAll()
+		
+		/*Liberando os methodos HTTP para varios clientes*/
+		.antMatchers(HttpMethod.OPTIONS , "/**").permitAll()
 		
 		/*Url de logout - Redireciona após o usuario se deslogar do sistema*/
 		.anyRequest().authenticated().and().logout().logoutSuccessUrl("/index")
